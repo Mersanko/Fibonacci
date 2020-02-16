@@ -1,12 +1,59 @@
-import time
-import random
+import timeit
 from numpy.random import seed
 from numpy.random import randint
 import matplotlib.pyplot as plt
 
 class fibExeTime():
     def __init__(self):
-        self.lists = []
+        self.termslist = []
+        self.nterm = 0
+        self.nthTerm1 = list()
+        self.nthTerm2 = list()
+        self.nthTerm3 = list()
+        self.exeTime1 = list()
+        self.exeTime2 = list()
+        self.exeTime3 = list()
+
+    def driveProgram(self):
+        self.nterm = int(input("Enter nth Term:"))
+        Fibo.termsToBePlot(self.nterm)
+        for i in range(0,len(self.termslist)-1):
+            self.nthTerm1.append(i+1)
+        for t in range(0,len(self.termslist)-1):
+            self.nthTerm2.append(t+1)
+        for r in range(0,len(self.termslist)-1):
+            self.nthTerm3.append(r+1)
+
+        for e in range(len(self.nthTerm1)):
+
+            startTime1 = timeit.timeit()
+            Fibo.fibonacciRecursive(e)
+            endTime1 = timeit.timeit()
+            self.exeTime1.append(endTime1-startTime1)
+
+            startTime2 = timeit.timeit()
+            Fibo.fibonacciRecursive(e)
+            endTime2 = timeit.timeit()
+            self.exeTime2.append(endTime2-startTime2)
+
+            startTime3 = timeit.timeit()
+            Fibo.fibonacciRecursive(e)
+            endTime3 = timeit.timeit()
+            self.exeTime3.append(endTime3-startTime3)
+
+
+        plt.xlabel('Term Length')
+        plt.ylabel('Time Complexity')
+
+        plt.plot(self.nthTerm1,self.exeTime1,label ='Recursive')
+
+        plt.plot(self.nthTerm2,self.exeTime2,label ='Iteration')
+
+        plt.plot(self.nthTerm3,self.exeTime3,label ='Better')
+
+        plt.grid()
+        plt.legend()
+        plt.show()
 
     def fibonacciRecursive(self,n):
         if n<=1:
@@ -36,37 +83,27 @@ class fibExeTime():
                 return (d, c + d)
             else:
                 return (c, d)
-    def driverProgram(self):
-        terms = []
-        fiboRecursiveTime = []
-        fiboIterationTime = []
-        fiboBetterTime = []
-        for i in range(0,5):
-            nterm = int(input("Enter length of terms:"))
-            startTime1 = time.clock()
-            Fibo.fibonacciRecursive(nterm)
-            endTime1 = time.clock()
-            startTime2 = time.clock()
-            Fibo.fibonacciIteration(nterm)
-            endTime2 = time.clock()
-            startTime3 = time.clock()
-            Fibo.fibonacciBetter(nterm)
-            endTime3 = time.clock()
-            fiboRecursiveTime.append(endTime1-startTime1)
-            fiboIterationTime.append(endTime2-startTime2)
-            fiboBetterTime.append(endTime3-startTime3)
-            terms.append(10*i*i)
+    def termsToBePlot(self,n):
+            a = 0
+            b = 1
+            self.termslist.append(a)
+            self.termslist.append(b)
+            print("Fibonacci Seqeunce",end=" ")
+            print(a,b,end=" ")
 
-        plt.xlabel('Term Length')
-        plt.ylabel('Time Complexity')
-        plt.plot(terms,fiboRecursiveTime,label ='Recursive')
-        plt.plot(terms,fiboIterationTime,label = 'Iteration')
-        plt.plot(terms,fiboBetterTime,label = 'Better')
-        plt.grid()
-        plt.legend()
-        plt.show()
+            while(n-2):
+                if n>0:
+                    c=a+b
+                    self.termslist.append(c)
+                    print(c,end=" ")
+                    a,b = b,c
+                    n= n-1
+
+    def Sequence(self):
+        self.nterm = int(input("Enter nth Term:"))
+        Fibo.termsToBePlot(self.nterm)
 
 
 
 Fibo = fibExeTime()
-Fibo.driverProgram()
+Fibo.driveProgram()
