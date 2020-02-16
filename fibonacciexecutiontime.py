@@ -1,6 +1,4 @@
 import timeit
-from numpy.random import seed
-from numpy.random import randint
 import matplotlib.pyplot as plt
 
 class fibExeTime():
